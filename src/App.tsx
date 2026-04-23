@@ -1,32 +1,34 @@
-import {useState} from 'react';
-import './App.css';
-import {Todolist} from './Todolist';
+import { useState } from 'react';
+import { Button } from './Button';
+import { Input } from './Input';
 
 export const App = ()=> {
-  let [tasks, setTasks] = useState([
-    {id: 1, title: "HTML&CSS", isDone: true},
-    {id: 2, title: "JS", isDone: true},
-    {id: 3, title: "ReactJS", isDone: false},
-    {id: 4, title: "Rest API", isDone: false},
-    {id: 5, title: "GraphQL", isDone: false},
-  ]);
+  let [message, setMessage] = useState([
+    {message: 'message1'},
+    {message: 'message1'},
+    {message: 'message1'}
+  ])
 
-  function removeTask(id: number) {
-    let filteredTasks = tasks.filter(t => t.id != id);
-    setTasks(filteredTasks);
+  let [title, setTitle] = useState('');
+
+  const addMessage = (newMessage: string) => {
+    setMessage([{message: newMessage}, ...message])
   }
 
-  const deleteAllTasks = () => {
-    setTasks([])
+  const callBackButtonHandler = () => {
+    addMessage(title)
+    setTitle('')
   }
 
   return (
     <div className="App">
-      <Todolist title="What to learn"
-                tasks={tasks}
-                removeTask={removeTask}
-                deleteAllTasks={deleteAllTasks}
-      />
+        <Input setTitle={setTitle} title={title} />
+        <Button name={'+'} callBack={callBackButtonHandler}/>
+        {message.map((el, index) => {
+          return (
+            <div key={index}>{el.message}</div>
+          )
+        })}
     </div>
   );
 }
